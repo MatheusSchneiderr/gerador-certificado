@@ -94,6 +94,7 @@ label {
   vertical-align: middle;
 }
 
-.custom-input-group:has(.error-message) > label{
+.required-label:has(.error-message) > label{
   color:#d71d1d
 }
+

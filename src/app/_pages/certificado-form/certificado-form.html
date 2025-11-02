@@ -1,4 +1,4 @@
-<div class="d-flex flex-column align-items-center">
+<form #form="ngForm" novalidate class="d-flex flex-column align-items-center">
     <div class="custom-titles">
       <h1 class="f2-bold custom-title">Geração de certificado</h1>
       <p class="mb-4 custom-subtitle">preencha os dados para gerar um novo certificado</p>
@@ -6,53 +6,46 @@
 
   <div class="custom-card w-100">
     <h2 class="card-title">Novo Certificado</h2>
-    <div class="mb-3 custom-input-group">
+    <div class="mb-3 custom-input-group required-label">
       <label for="nome" class="form-label">Nome</label>
-      <input id="nome" type="text" class="form-control custom-input" placeholder="Nome do Aluno">
-      <div class="error-message d-flex align-items-center">
-        <i class="ph ph-warning-circle"></i>
-        <p class="m-0">Error Message</p>
-      </div>
+      <input  #nomeRef="ngModel" name="nome" [(ngModel)]="nome" maxlength="150" required id="name" type="text" class="form-control custom-input" placeholder="Nome do Aluno">
+        @if (campoInvalido(nomeRef)) {
+          <div class="error-message d-flex align-items-center">
+            <i class="ph ph-warning-circle"></i>
+            <p class="m-0">O nome do aluno é obrigatório</p>
+          </div>
+        }
     </div>
     <div class="mb-3 d-flex align-items-end custom-input-group">
-      <div class="flex-grow-1 me-2">
-        <label for="atividade" class="form-label">Nome</label>
-        <input id="atividade" type="text" class="form-control custom-input" placeholder="Atividade exercida">
+      <div class="flex-grow-1 me-2 required-label">
+        <label for="atividade" class="form-label">Atividade</label>
+        <input [(ngModel)]="atividade" name="atividade" #atividadeRef="ngModel" maxlength="50" required id="atividade" type="text" class="form-control custom-input" placeholder="Atividade exercida">
+          @if (campoInvalido(atividadeRef)) {
+            <div class="error-message d-flex align-items-center">
+              <i class="ph ph-warning-circle"></i>
+              <p class="m-0">O nome da atividade é obrigatório</p>
+            </div>
+          }
       </div>
-      <app-secondary-button></app-secondary-button>
+      <app-secondary-button
+        [ngStyle]="campoInvalido(atividadeRef) ? {'margin-bottom':'24px'} : {}"></app-secondary-button>
     </div>
     <div class="atividade-group">
       <label class="form-label">Lista de Ativididades</label>
       <div class="item-list w-100">
-        <div class="item">
-          <span class="item-text">Configuração com anguar</span>
-          <div class="remove-btn">
-            <i class="ph-bold ph-x"></i>
+          @for (atv of atividades; track $index) {
+          <div class="item">
+            <span class="item-text">{{atv}}</span>
+            <div class="remove-btn">
+              <i class="ph-bold ph-x"></i>
+            </div>
           </div>
-        </div>
-        <hr>
-        <div class="item">
-          <span class="item-text">Configuração com anguar</span>
-          <div class="remove-btn">
-            <i class="ph-bold ph-x"></i>
-          </div>
-        </div>
-        <hr>
-        <div class="item">
-          <span class="item-text">Configuração com anguar</span>
-          <div class="remove-btn">
-            <i class="ph-bold ph-x"></i>
-          </div>
-        </div>
-        <hr>
-        <div class="item">
-          <span class="item-text">Configuração com anguar</span>
-          <div class="remove-btn">
-            <i class="ph-bold ph-x"></i>
-          </div>
-        </div>
+            @if($index < atividades.length - 1) {
+              <hr>
+            }
+          }
       </div>
     </div>
     <app-primary-button></app-primary-button>
   </div>
-</div>
+</form>
