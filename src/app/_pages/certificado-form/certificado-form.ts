@@ -3,7 +3,8 @@ import { PrimaryButton } from "../../_components/primary-button/primary-button";
 import { SecondaryButton } from "../../_components/secondary-button/secondary-button";
 import { FormsModule, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Certificado } from '../../Interfaces/certificado';
+import { ICertificado } from '../../Interfaces/interfaceCertificado';
+import { Certificado } from '../../_services/certificado';
 
 @Component({
   selector: 'app-certificado-form',
@@ -12,12 +13,15 @@ import { Certificado } from '../../Interfaces/certificado';
   styleUrl: './certificado-form.css',
 })
 export class CertificadoForm{
-  atividade: string = "";
 
-  certificado: Certificado = {
+  constructor(private certificadoService: Certificado){}
+
+  certificado: ICertificado = {
     nome: "",
-    atividades: []
+    atividades: [],
+    dataEmissao: ""
   };
+  atividade: string = "";
 
   campoInvalido(control: NgModel){
     return control.invalid && control.touched;
@@ -38,7 +42,17 @@ export class CertificadoForm{
 
   subtmit(){
     if(this.formValido()){
-      console.log(this.certificado);
+      this.certificado.dataEmissao = this.dataAtaual();
+      this.certificadoService.adicionarCertificado(this.certificado);
     }
+  }
+
+  dataAtaual(){
+    const dataAtual = new Date();
+    const dia = String(dataAtual.getDate()).padStart(2, '0');
+    const mes = String(dataAtual.getMonth() + 1).padStart(2, '0');
+    const ano = dataAtual.getFullYear();
+
+    return `${dia}/${mes}/${ano}`;
   }
 }
