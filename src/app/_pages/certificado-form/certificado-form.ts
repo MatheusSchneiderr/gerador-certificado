@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './certificado-form.css',
 })
 export class CertificadoForm {
-  nome: string = "bundao";
+  nome: string = "teste";
   atividade: string = "";
   atividades: string[] = ["angular","react","vue","svelte"];
 
