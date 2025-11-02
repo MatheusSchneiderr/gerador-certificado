@@ -4,8 +4,9 @@ import { SecondaryButton } from "../../_components/secondary-button/secondary-bu
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { ICertificado } from '../../Interfaces/interfaceCertificado';
-import { Certificado } from '../../_services/certificado';
+import { CertificadoService } from '../../_services/certificadoService';
 import { v4 as uuidv4 } from 'uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-certificado-form',
@@ -15,7 +16,7 @@ import { v4 as uuidv4 } from 'uuid';
 })
 export class CertificadoForm{
 
-  constructor(private certificadoService: Certificado){}
+  constructor(private certificadoService: CertificadoService, private route: Router){}
   @ViewChild('form')  form!: NgForm;
 
   certificado: ICertificado = {
@@ -50,9 +51,7 @@ export class CertificadoForm{
       this.certificado.id = uuidv4();
       this.certificado.dataEmissao = this.dataAtaual();
       this.certificadoService.adicionarCertificado(this.certificado);
-
-      this.certificado = this.estadoInicialCertificado();
-      this.form.resetForm();
+      this.route.navigate(['certificados', this.certificado.id]);
     }
   }
 
@@ -63,14 +62,5 @@ export class CertificadoForm{
     const ano = dataAtual.getFullYear();
 
     return `${dia}/${mes}/${ano}`;
-  }
-
-  estadoInicialCertificado(): ICertificado{
-    return {
-      id: "",
-      nome: "",
-      atividades: [],
-      dataEmissao: ""
-    };
   }
 }

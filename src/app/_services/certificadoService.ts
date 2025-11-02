@@ -5,14 +5,14 @@ import { stringify } from 'uuid';
 @Injectable({
   providedIn: 'root'
 })
-export class Certificado {
+export class CertificadoService {
 
   certificados: ICertificado[] = [];
 
   constructor(){}
 
   adicionarCertificado(certificado: ICertificado){
-    this.certificados.push({...certificado});
+    this.certificados.unshift({...certificado});
     localStorage.setItem('certificados', JSON.stringify(this.certificados));
   }
 }
