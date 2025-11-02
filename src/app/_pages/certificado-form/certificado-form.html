@@ -8,7 +8,7 @@
     <h2 class="card-title">Novo Certificado</h2>
     <div class="mb-3 custom-input-group required-label">
       <label for="nome" class="form-label">Nome</label>
-      <input  #nomeRef="ngModel" name="nome" [(ngModel)]="nome" maxlength="150" required id="name" type="text" class="form-control custom-input" placeholder="Nome do Aluno">
+      <input  #nomeRef="ngModel" name="nome" [(ngModel)]="certificado.nome" maxlength="150" required id="name" type="text" class="form-control custom-input" placeholder="Nome do Aluno">
         @if (campoInvalido(nomeRef)) {
           <div class="error-message d-flex align-items-center">
             <i class="ph ph-warning-circle"></i>
@@ -20,32 +20,25 @@
       <div class="flex-grow-1 me-2 required-label">
         <label for="atividade" class="form-label">Atividade</label>
         <input [(ngModel)]="atividade" name="atividade" #atividadeRef="ngModel" maxlength="50" required id="atividade" type="text" class="form-control custom-input" placeholder="Atividade exercida">
-          @if (campoInvalido(atividadeRef)) {
-            <div class="error-message d-flex align-items-center">
-              <i class="ph ph-warning-circle"></i>
-              <p class="m-0">O nome da atividade é obrigatório</p>
-            </div>
-          }
       </div>
-      <app-secondary-button
-        [ngStyle]="campoInvalido(atividadeRef) ? {'margin-bottom':'24px'} : {}"></app-secondary-button>
+      <app-secondary-button (click)="adicionarAtividade()" [disable]="atividade.length == 0" textoBotao="Adicionar" phCLass="ph ph-plus"></app-secondary-button>
     </div>
     <div class="atividade-group">
       <label class="form-label">Lista de Ativididades</label>
       <div class="item-list w-100">
-          @for (atv of atividades; track $index) {
+          @for (atv of certificado.atividades; track $index) {
           <div class="item">
             <span class="item-text">{{atv}}</span>
-            <div class="remove-btn">
+            <div (click)="excluirAtividade($index)" class="remove-btn">
               <i class="ph-bold ph-x"></i>
             </div>
           </div>
-            @if($index < atividades.length - 1) {
+            @if($index < certificado.atividades.length - 1) {
               <hr>
             }
           }
       </div>
     </div>
-    <app-primary-button></app-primary-button>
+    <app-primary-button (click)="subtmit()" [disable]="!formValido()" textoBotao="Gerar Certificado"></app-primary-button>
   </div>
 </form>
