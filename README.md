@@ -1,5 +1,8 @@
 # GeradorCertificado
 
+Acesse o projeto em produção!
+https://gerador-certificado-project.netlify.app/
+
 This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.3.7.
 
 ## Development server
